@@ -1,4 +1,5 @@
 #include "Strand.h"
+#include <cstring>
 #include <iostream>
 
 void test_default_constructor() {
@@ -155,7 +156,7 @@ void test_overlap() {
   // full overlap
   one = "CATGAT";
   two = "CATGAT";
-  if (one.overlap(two)) {
+  if (one.overlap(two) != 0) {
     std::cout << "Overlap returned " << one.overlap(two) << std::endl;
   }
 

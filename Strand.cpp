@@ -40,6 +40,7 @@ Strand Strand::operator+(const Strand &rhs) const {
   std::strcat(added, rhs.getString());
 
   Strand newInstance(added);
+  delete[] added;
   return newInstance;
 }
 
@@ -86,32 +87,26 @@ Strand Strand::substrand(size_t i, size_t j) const {
     newString[index-i] = mString[index];
   }
 
-  Strand *newStrand = new Strand;
-  newStrand->setString(newString);
-  return *newStrand;
+  Strand newStrand(newString);
+  delete[] newString;
+  return newStrand;
 }
 
 Strand Strand::merge(size_t i, const Strand &rhs) const {
-  Strand *newStrand = new Strand;
-  *newStrand = substrand(0, i);
-  *newStrand += rhs;
-  return *newStrand;
+  Strand newStrand = substrand(0, i);
+  newStrand += rhs;
+  return newStrand;
 }
 
 size_t Strand::overlap(const Strand &rhs) const {
   size_t i;
   for (i=0; i < size(); i++) {
-    Strand *last = new Strand;
-    Strand *first = new Strand;
+    Strand last = substrand(i, size());
+    Strand first = rhs.substrand(0, size()-i);
 
-    *last = substrand(i, size());
-    *first = rhs.substrand(0, size()-i);
-
-    if (*last == *first) {
+    if (last == first) {
       return i;
     }
-    delete last;
-    delete first;
   }
   return size() + 1;
 }
