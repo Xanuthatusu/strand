@@ -81,11 +81,12 @@ size_t Strand::size() const {
 }
 
 Strand Strand::substrand(size_t i, size_t j) const {
-  char *newString = new char [j - i];
+  char *newString = new char [j - i + 1];
   size_t index;
   for (index=i; index < j; index++) {
     newString[index-i] = mString[index];
   }
+  newString[j - i] = 0;
 
   Strand newStrand(newString);
   delete[] newString;
