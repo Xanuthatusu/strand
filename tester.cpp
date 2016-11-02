@@ -1,4 +1,6 @@
 #include "Strand.h"
+#include "sequence.h"
+#include <vector>
 #include <cstring>
 #include <iostream>
 #include <cassert>
@@ -143,6 +145,17 @@ int main() {
   test_substrand();
   test_merge();
   test_overlap();
+
+
+  std::vector<Strand> strands;
+  Strand a("CATGAT");
+  strands.push_back(a);
+  Strand b("ACTGACATGATC");
+  strands.push_back(b);
+  Strand c("ACTACT");
+  strands.push_back(c);
+  sequence(strands, 3);
+
   return 0;
 }
 
