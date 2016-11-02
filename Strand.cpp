@@ -77,10 +77,19 @@ void Strand::setString(const char *string) {
 }
 
 size_t Strand::size() const {
+  if (!(mString)) {
+    return 0;
+  }
   return std::strlen(mString);
 }
 
 Strand Strand::substrand(size_t i, size_t j) const {
+  // check to see if mString is not null
+  if (!(size())) {
+    Strand null;
+    return null;
+  }
+
   char *newString = new char [j - i + 1];
   size_t index;
   for (index=i; index < j; index++) {

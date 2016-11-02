@@ -1,21 +1,18 @@
 #include "Strand.h"
 #include <cstring>
 #include <iostream>
+#include <cassert>
 
 void test_default_constructor() {
   Strand s;
 
-  if (s.getString() != 0) {
-    std::cout << "Returned non-null pointer." << std::endl;
-  }
+  assert(s.getString() == 0);
 }
 
 void test_assignment_constructor() {
   Strand s("CATGAT");
 
-  if (std::strcmp(s.getString(), "CATGAT") != 0) {
-    std::cout << "Assignment contructor failed!" << std::endl;
-  }
+  assert(std::strcmp(s.getString(), "CATGAT") == 0);
 }
 
 void test_copy_constructor() {
@@ -24,22 +21,17 @@ void test_copy_constructor() {
   s = "CATGAT";
 
   Strand newS(s);
-  if (std::strcmp(newS.getString(), "CATGAT")) {
-    std::cout << "Copy constructor failed!" << std::endl;
-  }
+  assert(std::strcmp(newS.getString(), "CATGAT") == 0);
 }
 
 void test_assignment_operator() {
   Strand s;
   s = "CATGCAGT";
-  if (std::strcmp(s.getString(), "CATGCAGT")) {
-    std::cout << "Something failed in set/get value!" << std::endl;
-  }
+
+  assert(std::strcmp(s.getString(), "CATGCAGT") == 0);
 
   s = 0;
-  if (s.getString() != 0) {
-    std::cout << "Something failed in set/get value of 0!" << std::endl;
-  }
+  assert(s.getString() == 0);
 }
 
 void test_addition_operator() {
@@ -48,9 +40,7 @@ void test_addition_operator() {
 
   one = one + two;
 
-  if (std::strcmp(one.getString(), "CATGAT")) {
-    std::cout << "Addition operator failed!" << std::endl;
-  }
+  assert(std::strcmp(one.getString(), "CATGAT") == 0);
 }
 
 void test_plus_equals_operator() {
@@ -59,80 +49,60 @@ void test_plus_equals_operator() {
 
   one += two;
 
-  if (std::strcmp(one.getString(), "CATGAT")) {
-    std::cout << "Plus equals operator failed!" << std::endl;
-  }
+  assert(std::strcmp(one.getString(), "CATGAT") == 0);
 }
 
 void test_equals_operators() {
   Strand one("CAT");
   Strand two("CAT");
 
-  if (!(one == two)) {
-    std::cout << "Equals operator failed!" << std::endl;
-  }
-  if (one != two) {
-    std::cout << "Not equals operator failed!" << std::endl;
-  }
+  assert(one == two);
+  assert(!(one != two));
 
   two = "GAT";
-  if (!(one != two)) {
-    std::cout << "Not equals operator failed!" << std::endl;
-  }
-  if (one == two) {
-    std::cout << "Equals operator failed!" << std::endl;
-  }
-
-  Strand gat("GAT");
-  Strand temp("CATGAT");
-  Strand gat2 = temp.substrand(3, 7);
-  //std::cout << gat2.getString() << std::endl;
-  //std::cout << (gat == gat2) << std::endl;
+  assert(one != two);
+  assert(!(one == two));
 }
 
 void test_compare_operators() {
   Strand one("CAT");
   Strand two("AGT");
 
-  if (!(one > two)) {
-    std::cout << "Greater than operator failed!" << std::endl;
-  }
-  if (one < two) {
-    std::cout << "Less than operator failed!" << std::endl;
-  }
+  assert(one > two);
+  assert(!(one < two));
 }
 
 void test_size() {
   Strand s;
-  s = "CATGAT";
+  assert(s.size() == 0);
   
-  if (s.size() != 6) {
-    std::cout << "s.size returned " << s.size() << "!" << std::endl;
-  }
+  s = "CATGAT";
+  assert(s.size() == 6);
+
+  s = "";
+  assert(s.size() == 0);
 }
 
-void test_subStrand() {
+void test_substrand() {
   Strand s("TAGCATGATCTA");
-  Strand catgat = s.substrand(3, 9);
 
-  if (std::strcmp(catgat.getString(), "CATGAT")) {
-    std::cout << "Substrand returned " << catgat.getString() << "!" << std::endl;
-  }
+  Strand catgat = s.substrand(3, 9);
+  assert(std::strcmp(catgat.getString(), "CATGAT") == 0);
 
   Strand n = s.substrand(0, 2);
-  if (std::strcmp(n.getString(), "TA")) {
-    std::cout << "Substrand returned " << n.getString() << "!" << std::endl;
-  }
+  assert(std::strcmp(n.getString(), "TA") == 0);
+
+  Strand null;
+  Strand null_sub = null.substrand(0, 1);
+  assert(null_sub.getString() == 0);
 }
 
 void test_merge() {
   Strand lhs("CATGAT");
   Strand rhs("GATTAG");
-  lhs = lhs.merge(3, rhs);
 
-  if (std::strcmp(lhs.getString(), "CATGATTAG")) {
-    std::cout << "Merge returned " << lhs.getString() << "!" << std::endl;
-  }
+  lhs = lhs.merge(3, rhs);
+  assert(std::strcmp(lhs.getString(), "CATGATTAG") == 0);
 }
 
 void test_overlap() {
@@ -142,42 +112,35 @@ void test_overlap() {
   // medium overlap
   one = "CATGAT";
   two = "GATCAT";
-  if (one.overlap(two) != 3) {
-    std::cout << "Overlap returned " << one.overlap(two) << std::endl;
-  }
+  assert(one.overlap(two) == 3);
 
   // no overlap
   one = "CATGAT";
   two = "GCTACT";
-  if (one.overlap(two) < one.size()) {
-    std::cout << "Overlap returned " << one.overlap(two) << std::endl;
-  }
+  assert(one.overlap(two) > one.size());
 
   // full overlap
   one = "CATGAT";
   two = "CATGAT";
-  if (one.overlap(two) != 0) {
-    std::cout << "Overlap returned " << one.overlap(two) << std::endl;
-  }
+  assert(one.overlap(two) == 0);
 
   // mostly overlap
   one = "GATGAC";
   two = "ATGACT";
-  if (one.overlap(two) != 1) {
-    std::cout << "Overlap returned " << one.overlap(two) << std::endl;
-  }
+  assert(one.overlap(two) == 1);
 }
 
 int main() {
   test_default_constructor();
-  test_copy_constructor();
+  test_assignment_constructor();
   test_assignment_operator();
+  test_copy_constructor();
   test_addition_operator();
   test_plus_equals_operator();
   test_equals_operators();
   test_compare_operators();
   test_size();
-  test_subStrand();
+  test_substrand();
   test_merge();
   test_overlap();
   return 0;
