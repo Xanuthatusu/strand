@@ -14,6 +14,9 @@ std::vector<Strand> sequence(std::vector<Strand> strands, const size_t minimum_o
     for (it=strands.begin(); it != strands.end() - 1; it++) {
       std::cout << it->getString() << std::endl << "Next: ";
       std::cout << (it + 1)->getString() << std::endl;
+      size_t overlapIndex = 1;
+      overlapIndex = it->overlap(*(it + 1));
+      std::cout << overlapIndex << std::endl;
     }
 
     std::sort(strands.begin(), strands.end());

@@ -130,6 +130,11 @@ void test_overlap() {
   one = "GATGAC";
   two = "ATGACT";
   assert(one.overlap(two) == 1);
+
+  // uneven overlap
+  one = "AAAAGAT";
+  two = "GATAA";
+  assert(one.overlap(two) == 4);
 }
 
 int main() {
