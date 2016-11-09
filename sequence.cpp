@@ -10,12 +10,20 @@ std::vector<Strand> sequence(std::vector<Strand> strands, const size_t minimum_o
   while (foundOverlap) {
     foundOverlap = false;
 
-    std::vector<Strand>::iterator it;
-    for (it=strands.begin(); it != strands.end() - 1; it++) {
-      std::cout << it->getString() << std::endl << "Next: ";
-      std::cout << (it + 1)->getString() << std::endl;
-      size_t overlapIndex = 1;
-      overlapIndex = it->overlap(*(it + 1));
+    //std::vector<Strand>::iterator it;
+    //for (it=strands.begin(); it != strands.end() - 1; it++) {
+      //std::cout << it->getString() << std::endl << "Next: ";
+      //std::cout << (it + 1)->getString() << std::endl;
+      //size_t overlapIndex = 1;
+      //overlapIndex = it->overlap(*(it + 1));
+      //std::cout << overlapIndex << std::endl;
+    //}
+    
+    size_t i;
+    for (i=0; i < strands.size() - 1; i++) {
+      std::cout << strands[i].getString() << std::endl;
+      std::cout << "Next: " << strands[i + 1].getString() << std::endl;
+      size_t overlapIndex = strands[i].overlap(strands[i + 1]);
       std::cout << overlapIndex << std::endl;
     }
 
