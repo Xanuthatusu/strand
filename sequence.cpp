@@ -10,28 +10,32 @@ std::vector<Strand> sequence(std::vector<Strand> strands, const size_t minimum_o
   while (foundOverlap) {
     foundOverlap = false;
 
-    //std::vector<Strand>::iterator it;
-    //for (it=strands.begin(); it != strands.end() - 1; it++) {
-      //std::cout << it->getString() << std::endl << "Next: ";
-      //std::cout << (it + 1)->getString() << std::endl;
-      //size_t overlapIndex = 1;
-      //overlapIndex = it->overlap(*(it + 1));
-      //std::cout << overlapIndex << std::endl;
-    //}
-    
-    size_t i;
-    for (i=0; i < strands.size() - 1; i++) {
-      std::cout << strands[i].getString() << std::endl;
-      std::cout << "Next: " << strands[i + 1].getString() << std::endl;
-      size_t overlapIndex = strands[i].overlap(strands[i + 1]);
-      std::cout << overlapIndex << std::endl;
+    std::sort(strands.begin(), strands.end());
+
+    std::pair<Strand, Strand> bestOverlap;
+
+    for (auto && strand1: strands) {
+      for (auto && strand2: strands) {
+        if (strand1 == strand2) {
+          continue;
+        }
+        size_t overlap = strand1.overlap(strand2);
+        if (overlap < strand1.size() && strand1.size() - overlap >= minimum_overlap_size) {
+          bestOverlap = std::make_pair(strand1, strand2);
+          foundOverlap = true;
+        }
+      }
     }
 
-    std::sort(strands.begin(), strands.end());
+    if (foundOverlap) {
+      Strand strand1 = bestOverlap.first;
+      Strand strand2 = bestOverlap.second;
+      Strand newStrand = strand1.merge(strand1.overlap(strand2), strand2);
+      strands.erase(std::remove(strands.begin(), strands.end(), strand1), strands.end());
+      strands.erase(std::remove(strands.begin(), strands.end(), strand2), strands.end());
+      strands.push_back(newStrand);
+    }
   }
   
-  std::vector<Strand> returnVector;
-  Strand null;
-  returnVector.push_back(null);
-  return returnVector;
+  return strands;
 }

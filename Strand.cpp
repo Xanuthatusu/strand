@@ -111,9 +111,14 @@ Strand Strand::merge(size_t i, const Strand &rhs) const {
 size_t Strand::overlap(const Strand &rhs) const {
   size_t i;
   for (i=0; i < size(); i++) {
+    Strand one;
+    Strand two;
     size_t b;
     for (b=0; b < rhs.size(); b++) {
-      if (substrand(i, size()) == rhs.substrand(0, size()-b)) {
+      one = substrand(i, size());
+      two = rhs.substrand(0, rhs.size()-b);
+
+      if (one == two) {
         return i;
       }
     }

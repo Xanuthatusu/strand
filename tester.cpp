@@ -135,6 +135,11 @@ void test_overlap() {
   one = "AAAAGAT";
   two = "GATAA";
   assert(one.overlap(two) == 4);
+
+  // opposite uneven overlap
+  one = "GATATAG";
+  two = "TAGAGAAA";
+  assert(one.overlap(two) == 4);
 }
 
 int main() {
@@ -153,13 +158,14 @@ int main() {
 
 
   std::vector<Strand> strands;
-  Strand a("CATGAT");
-  strands.push_back(a);
-  Strand b("ACTGACATGATC");
-  strands.push_back(b);
-  Strand c("ACTACT");
-  strands.push_back(c);
-  sequence(strands, 3);
+  strands.push_back(Strand("CATGAT"));
+  strands.push_back(Strand("CATCAT"));
+  strands.push_back(Strand("GATGAT"));
+  strands.push_back(Strand("CAGGAT"));
+  strands.push_back(Strand("CATCAG"));
+  strands.push_back(Strand("CATGAT"));
+  strands = sequence(strands, 3);
+  assert(std::strcmp(strands[0].getString(), "CATCAGGAT") == 0 && std::strcmp(strands[1].getString(), "CATCATGATGAT") == 0);
 
   return 0;
 }
