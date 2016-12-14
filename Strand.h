@@ -13,6 +13,7 @@ public:
   // operator overloading
   Strand &operator=(const Strand &rhs);
   Strand operator+(const Strand &rhs) const;
+  Strand operator-(const Strand &rhs) const;
   Strand &operator+=(const Strand &rhs);
   bool operator==(const Strand &rhs) const;
   bool operator!=(const Strand &rhs) const;

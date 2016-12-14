@@ -44,6 +44,31 @@ Strand Strand::operator+(const Strand &rhs) const {
   return newInstance;
 }
 
+Strand Strand::operator-(const Strand &rhs) const {
+  char *toRemove = rhs.getString();
+  char *newS = new char [std::strlen(getString())];
+  int index = 0;
+  bool removing = false;
+
+  for (size_t i=0; i < std::strlen(getString()); i++) {
+    for (size_t z=0; z < std::strlen(toRemove); z++) {
+      if (getString()[i] == toRemove[z]) {
+        removing = true;
+      }
+    }
+    if (!removing) {
+      newS[index] = getString()[i];
+      index++;
+    }
+    removing = false;
+  }
+
+  std::cout << newS << std::endl;
+
+  Strand newInstance;
+  return newInstance;
+}
+
 bool Strand::operator==(const Strand &rhs) const {
   return std::strcmp(getString(), rhs.getString()) == 0;
 }

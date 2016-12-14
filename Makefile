@@ -9,8 +9,8 @@ unittest: test
 test: tester
 	./tester
 
-tester: tester.cpp Strand.o sequence.o
-	g++ $(CXXFLAGS) -o $@ $^
+tester: final1_Strand.cpp Strand.o sequence.o
+	g++ $(CXXFLAGS) -o tester $^
 
 Strand.o: Strand.cpp Strand.h
 	g++ $(CXXFLAGS) -c $<
