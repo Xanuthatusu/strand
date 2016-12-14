@@ -2,10 +2,12 @@
 #define _STRAND_H_
 
 #include <cstdlib>
+#include <string>
 
 class Strand {
 public:
   Strand();
+  Strand(const std::string string);
   Strand(const char *src);
   Strand(const Strand &src);
   ~Strand();
@@ -13,7 +15,7 @@ public:
   // operator overloading
   Strand &operator=(const Strand &rhs);
   Strand operator+(const Strand &rhs) const;
-  Strand operator-(const Strand &rhs) const;
+  //Strand operator-(const Strand &rhs) const;
   Strand &operator+=(const Strand &rhs);
   bool operator==(const Strand &rhs) const;
   bool operator!=(const Strand &rhs) const;

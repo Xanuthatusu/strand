@@ -9,7 +9,7 @@ unittest: test
 test: tester
 	./tester
 
-tester: final1_Strand.cpp Strand.o sequence.o
+tester: final2_Strand.cpp Strand.o sequence.o
 	g++ $(CXXFLAGS) -o tester $^
 
 Strand.o: Strand.cpp Strand.h
